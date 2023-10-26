@@ -27,7 +27,7 @@ app.use('/users', usersRouter);
 
 app.listen(port, () => {
     //   console.log(`${api}/products`)
-    console.log(`app listening on port  ${port}`)
+    console.log(`app listening on port on the ${port}`)
 })
 
 module.exports = app;
