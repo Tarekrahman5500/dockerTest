@@ -8,9 +8,11 @@ import * as path from "path";
 import indexRouter  from './routes';
 import  usersRouter  from './routes/users';
 import router from "./routes";
-
+import mongoose from "mongoose";
 const app = express();
-
+mongoose.connect("mongodb://trk:mypassword@mongo:27017/?authSource=admin")
+    .then(() => console.log("connection established"))
+    .catch((err) => console.error(err))
 const port = process.env.PORT || 5000
 
 app.use(logger('dev'));
