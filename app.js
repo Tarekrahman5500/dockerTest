@@ -4,25 +4,43 @@ import 'dotenv/config'
 import logger from 'morgan'
 import cookieParser from "cookie-parser";
 import * as path from "path";
+import {config} from './config/config'
 
-import indexRouter  from './routes';
-import  usersRouter  from './routes/users';
+import indexRouter from './routes';
+import usersRouter from './routes/users';
 import router from "./routes";
 import mongoose from "mongoose";
+
+//console.log(config)
 const app = express();
-mongoose.connect("mongodb://trk:mypassword@mongo:27017/?authSource=admin")
-    .then(() => console.log("connection established"))
-    .catch((err) => console.error(err))
+
+const mongoURL = `mongodb://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_IP}:${config.MONGO_PORT}/?authSource=admin`
+
+
+const connectWIthReTry = () => {
+    mongoose.connect(mongoURL, {
+        useUnifiedTopology: true,
+
+
+    })
+        .then(() => console.log("connection established"))
+        .catch((err) => {
+            console.error(err)
+            setTimeout(connectWIthReTry, 5000)
+        })
+}
+
+ connectWIthReTry()
 const port = process.env.PORT || 5000
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 router.get('/', (req, res, next) => {
-  res.send(`<h1>hi</h1>`)
+    res.send(`<h1>hi</h1>`)
 });
 
 app.use('/users', usersRouter);

@@ -10,4 +10,11 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_USER=trk
+      - MONGO_PASSWORD=mypassword
     command: npm run dev
+  mongo:
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: trk
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
