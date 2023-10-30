@@ -1,10 +1,7 @@
 import express from 'express';
+import {signUp} from "../controllers/authController";
 
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', (req, res, next) => {
-  res.send('respond with a resource again');
-});
-
+router.route('/create').post(signUp)
 export default router;

@@ -10,6 +10,10 @@ import indexRouter from './routes';
 import usersRouter from './routes/users';
 import router from "./routes";
 import mongoose from "mongoose";
+import errorHandler from "./helpers/error";
+
+import postRouter from "./routes/post"
+import ErrorHandler from "./helpers/errorhander";
 
 //console.log(config)
 const app = express();
@@ -26,7 +30,7 @@ const connectWIthReTry = () => {
         .then(() => console.log("connection established"))
         .catch((err) => {
             console.error(err)
-            setTimeout(connectWIthReTry, 5000)
+          //  setTimeout(connectWIthReTry, 5000)
         })
 }
 
@@ -43,7 +47,13 @@ router.get('/', (req, res, next) => {
     res.send(`<h1>hi</h1>`)
 });
 
-app.use('/users', usersRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/post', postRouter);
+
+app.use((req, res, next) => {
+    next(new ErrorHandler( `path: ${req.originalUrl} not found`, 404))
+})
+app.use(errorHandler)
 
 app.listen(port, () => {
     //   console.log(`${api}/products`)

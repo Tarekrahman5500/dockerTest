@@ -10,6 +10,7 @@
     "@babel/core": "^7.18.5",
     "@babel/node": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
+    "argon2": "^0.31.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
