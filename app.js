@@ -4,16 +4,23 @@ import 'dotenv/config'
 import logger from 'morgan'
 import cookieParser from "cookie-parser";
 import * as path from "path";
-import {config} from './config/config'
+import mongoose from "mongoose";
 
-import indexRouter from './routes';
+import redis from "redis"
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+
+
+import {config} from './config/config'
 import usersRouter from './routes/users';
 import router from "./routes";
-import mongoose from "mongoose";
+
 import errorHandler from "./helpers/error";
 
 import postRouter from "./routes/post"
 import ErrorHandler from "./helpers/errorhander";
+
+
 
 //console.log(config)
 const app = express();
