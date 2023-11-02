@@ -59,7 +59,7 @@ export const getSinglePostFromRedis = async (req, res, next) => {
     const cachedObjects = JSON.parse(cachedData);
 
 // Search for a matching object based on postId
-    const matchedObject = cachedObjects.find((obj) => obj._id === postId);
+    const matchedObject = cachedObjects?.find((obj) => obj._id === postId);
     console.log(matchedObject)
     if (matchedObject) {
         // If data is found in Redis, return it to the client

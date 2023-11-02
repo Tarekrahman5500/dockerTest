@@ -25,37 +25,30 @@ export const signUp = catchAsyncErrors(async (req, res, next) => {
 export const login = catchAsyncErrors(async (req, res, next) => {
     const {username, password} = req.body;
 
-    // Check if the email and password are provided
-    /*  if (!email || !password) {
-        return res.status(400).json({
-          status: 'error',
-          message: 'Email and password are required.',
-        });
-      }*/
 
-    // Find the user by their email
     const user = await User.findOne({username});
      if (!user) {
         return next(new Error('user not found'));
     }
-    // Check if the user exists
-    /*  if (!user) {
-        return res.status(401).json({
-          status: 'error',
-          message: 'Invalid credentials. User not found.',
-        });
-      }*/
 
-    // Verify the password using Argon2
     const passwordValid = await argon2.verify(user.password, password);
 
     if (!passwordValid) {
         return next(new Error('Invalid password credentials'));
     }
 
+
     // If the email and password are correct, generate a JWT
-    const token = jwt.sign({userId: user._id}, 'your-secret-key', {
+    const token = jwt.sign({userId: user._id, username, password}, 'your-secret-key', {
         expiresIn: '1h', // Set the token expiration time
+    });
+
+       // Set a cookie with the JWT token
+    res.cookie('jwt', token, {
+        httpOnly: true, // Ensures the cookie is only accessible through HTTP requests
+        maxAge: 3600000, // Set the expiration time for the cookie (1 hour in milliseconds)
+        secure: true,
+
     });
 
     // Send the JWT token in the response
