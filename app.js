@@ -43,7 +43,7 @@ const connectWIthReTry = () => {
 
  connectWIthReTry()
 const port = process.env.PORT || 5000
-
+app.enable("trust proxy")
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -51,6 +51,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 router.get('/api/v1', (req, res, next) => {
+    console.log('test1')
     res.send(`<h1>hi</h1>`)
 });
 
